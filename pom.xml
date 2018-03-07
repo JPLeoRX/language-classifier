@@ -41,6 +41,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Apache Commons - IO Utils-->
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
         <!-- ND4J backend. Is needed in every DL4J project. Normally define artifactId as either "nd4j-native-platform" or "nd4j-cuda-7.5-platform" -->
         <dependency>
             <groupId>org.nd4j</groupId>
