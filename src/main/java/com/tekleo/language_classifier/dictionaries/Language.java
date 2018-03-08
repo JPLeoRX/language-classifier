@@ -12,4 +12,8 @@ public enum Language {
     public int getValue() {
         return value;
     }
+
+    public static int[] getAllPossibleValues() {
+        return new int[]{ENGLISH.value, GERMAN.value};
+    }
 }

@@ -15,4 +15,11 @@ public class ArrayUtils {
     public static double[] toDoublesArray(int i) {
         return toDoublesArray(fromOne(i));
     }
+
+    public static boolean contains(int[] a, int i) {
+        for (int x : a)
+            if (x == i)
+                return true;
+        return false;
+    }
 }
