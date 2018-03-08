@@ -37,7 +37,7 @@ public class Word implements Serializable, Cloneable {
 
         String wordStretched = StringUtils.rightPad(word, MAX_SIZE);            // Word stretched to its MAX_SIZE and filled with spaces
         int[] wordAsInt = StringUtils.toIntArray(wordStretched);                // Stretched word converted to integer array format
-        int languageAsInt = language.getValue();                                // Language converted to integer format
+        int[] languageAsInt = language.getAsVector();                           // Language converted to integer array format
         double[] nnInput = ArrayUtils.toDoublesArray(wordAsInt);                // Input for neural networks
         double[] nnOutput = ArrayUtils.toDoublesArray(languageAsInt);           // Output for neural networks
         pair = new Pair<>(nnInput, nnOutput);                                   // Pair of double arrays prepared for machine learning
