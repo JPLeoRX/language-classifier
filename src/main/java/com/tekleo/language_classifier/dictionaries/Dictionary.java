@@ -20,7 +20,6 @@ public class Dictionary implements Serializable, Cloneable {
     private Language language;
 
     // Output
-    private String text;
     private List<Word> words;
 
 
@@ -31,25 +30,8 @@ public class Dictionary implements Serializable, Cloneable {
         this.filepath = filepath;
         this.language = language;
 
-        this.initText();
-        this.initWords();
-        this.shuffleWords();
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-
-
-    // Initialization
-    //------------------------------------------------------------------------------------------------------------------
-    private void initText() {
-        text = FileUtils.getFileAsString(filepath);
-    }
-
-    private void initWords() {
+        String text = FileUtils.getFileAsString(filepath);
         words = Word.getWords(text, "\n", language);
-    }
-
-    private void shuffleWords() {
         Collections.shuffle(words, new Random(SHUFFLE_SEED));
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -66,10 +48,6 @@ public class Dictionary implements Serializable, Cloneable {
         return language;
     }
 
-    public String getText() {
-        return text;
-    }
-
     public List<Word> getWords() {
         return words;
     }
@@ -84,12 +62,12 @@ public class Dictionary implements Serializable, Cloneable {
         if (this == o) return true;
         if (!(o instanceof Dictionary)) return false;
         Dictionary that = (Dictionary) o;
-        return Objects.equals(filepath, that.filepath) && language == that.language && Objects.equals(text, that.text);
+        return Objects.equals(filepath, that.filepath) && language == that.language;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(filepath, language, text);
+        return Objects.hash(filepath, language);
     }
 
     @Override

@@ -18,93 +18,29 @@ import java.util.Objects;
  * @since 06.03.2018 23:50
  */
 public class Word implements Serializable, Cloneable {
-    private static final int MAX_SIZE = 200;
+    private static final int MAX_SIZE = 150;
 
     // Inputs
     private String word;                            // Original word
     private Language language;                      // Language of this word
 
     // Output
-    private String wordStretched;                   // Word stretched to its MAX_SIZE and filled with spaces
-    private int[] wordAsInt;                        // Stretched word converted to integer array format
-    private int languageAsInt;                      // Language converted to integer format
-    private double[] nnInput;                       // Input for neural networks
-    private double[] nnOutput;                      // Output for neural networks
     private Pair<double[], double[]> pair;          // Pair of double arrays prepared for machine learning
+
+
 
     // Constructors
     //------------------------------------------------------------------------------------------------------------------
     public Word(String word, Language language) {
-        this.word = word;
-        this.language = language;
+        this.word = word;                                                       // Original word
+        this.language = language;                                               // Language of this word
 
-        this.initWordStretched();
-        this.initWordAsInt();
-        this.initLanguageAsInt();
-        this.initInput();
-        this.initOutput();
-        this.initPair();
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-
-
-    // Initialization
-    //------------------------------------------------------------------------------------------------------------------
-    private void initWordStretched() {
-        // Check if the word is legal
-        if (word == null || word.isEmpty())
-            throw new IllegalArgumentException("Illegal word value! word=" + word);
-
-        // Stretch it
-        wordStretched = StringUtils.rightPad(word, MAX_SIZE);
-    }
-
-    private void initWordAsInt() {
-        // Check if the word stretched was computed
-        if (wordStretched == null || wordStretched.length() != MAX_SIZE || !wordStretched.contains(word))
-            throw new IllegalArgumentException("Illegal wordStretched value! wordStretched=" + wordStretched);
-
-        // Get int array
-        wordAsInt = StringUtils.toIntArray(wordStretched);
-    }
-
-    private void initLanguageAsInt() {
-        // Check if the language is legal
-        if (language == null)
-            throw new IllegalArgumentException("Illegal language value! language=" + language);
-
-        // Convert it
-        languageAsInt = language.getValue();
-    }
-
-    private void initInput() {
-        // Check if the word int is legal
-        if (wordAsInt == null || wordAsInt.length != MAX_SIZE)
-            throw new IllegalArgumentException("Illegal wordAsInt value! wordAsInt=" + wordAsInt);
-
-        // Convert it
-        nnInput = ArrayUtils.toDoublesArray(wordAsInt);
-    }
-
-    private void initOutput() {
-        // Check if the language int is legal
-        if (!ArrayUtils.contains(Language.getAllPossibleValues(), languageAsInt))
-            throw new IllegalArgumentException("Illegal languageAsInt value! languageAsInt=" + languageAsInt);
-
-        nnOutput = ArrayUtils.toDoublesArray(languageAsInt);
-    }
-
-    private void initPair() {
-        // Check if the input is legal
-        if (nnInput == null || nnInput.length != MAX_SIZE)
-            throw new IllegalArgumentException("Illegal nnInput value! nnInput=" + nnInput);
-
-        // Check if the output is legal
-        if (nnOutput == null || nnOutput.length != 1)
-            throw new IllegalArgumentException("Illegal nnOutput value! nnOutput=" + nnOutput);
-
-        pair = new Pair<>(nnInput, nnOutput);
+        String wordStretched = StringUtils.rightPad(word, MAX_SIZE);            // Word stretched to its MAX_SIZE and filled with spaces
+        int[] wordAsInt = StringUtils.toIntArray(wordStretched);                // Stretched word converted to integer array format
+        int languageAsInt = language.getValue();                                // Language converted to integer format
+        double[] nnInput = ArrayUtils.toDoublesArray(wordAsInt);                // Input for neural networks
+        double[] nnOutput = ArrayUtils.toDoublesArray(languageAsInt);           // Output for neural networks
+        pair = new Pair<>(nnInput, nnOutput);                                   // Pair of double arrays prepared for machine learning
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -118,26 +54,6 @@ public class Word implements Serializable, Cloneable {
 
     public Language getLanguage() {
         return language;
-    }
-
-    public String getWordStretched() {
-        return wordStretched;
-    }
-
-    public int[] getWordAsInt() {
-        return wordAsInt;
-    }
-
-    public int getLanguageAsInt() {
-        return languageAsInt;
-    }
-
-    public double[] getNnInput() {
-        return nnInput;
-    }
-
-    public double[] getNnOutput() {
-        return nnOutput;
     }
 
     public Pair<double[], double[]> getPair() {
@@ -161,7 +77,17 @@ public class Word implements Serializable, Cloneable {
     }
 
     public static List<Word> getWords(String text, String delim, Language language) {
-        return getWords(StringUtils.split(text, delim), language);
+        // Parse text into unique strings
+        List<String> strings = StringUtils.split(text, delim);
+
+        // Trim each string
+        List<String> trimmed = StringUtils.trim(strings);
+
+        // Filter them (remove single letters and words with digits)
+        List<String> filtered = StringUtils.filter(trimmed);
+
+        // Parse as words
+        return getWords(filtered, language);
     }
 
     public static List<Pair<double[], double[]>> getPairs(List<Word> words) {
