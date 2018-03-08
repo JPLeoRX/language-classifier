@@ -2,6 +2,7 @@ package com.tekleo.language_classifier.dictionaries;
 
 import com.tekleo.language_classifier.utils.FileUtils;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -11,7 +12,7 @@ import java.util.*;
  * @author Leo Erunta
  * @since 07.03.2018 23:42
  */
-public class Dictionary{
+public class Dictionary implements Serializable, Cloneable {
     private static final int SHUFFLE_SEED = 666;
 
     // Input
