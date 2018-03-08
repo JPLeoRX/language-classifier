@@ -36,6 +36,8 @@ public class WordsDataSetBuilder {
     }
 
     public WordsDataSet build() {
+        if (ratio == 0 || batchSize == 0 || dictionaries == null || dictionaries.isEmpty())
+            throw new IllegalArgumentException();
         return new WordsDataSet(ratio, batchSize, dictionaries);
     }
 }
