@@ -1,22 +1,19 @@
 package com.tekleo.language_classifier.dictionaries;
 
 import com.tekleo.language_classifier.utils.FileUtils;
-import org.nd4j.linalg.primitives.Pair;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class represents a dictionary that parses a list of words and prepares them for machine learning
  * We start by reading whole file as one string
  * Then we split that string into words and shuffle them
- * Finally we parse each word and shuffle them again
  * @author Leo Erunta
  * @since 07.03.2018 23:42
  */
-public class Dictionary implements Iterable<Pair<double[], double[]>> {
+public class Dictionary{
+    private static final int SHUFFLE_SEED = 666;
+
     // Input
     private String filepath;
     private Language language;
@@ -24,8 +21,11 @@ public class Dictionary implements Iterable<Pair<double[], double[]>> {
     // Output
     private String text;
     private List<Word> words;
-    private List<Pair<double[], double[]>> pairs;
 
+
+
+    // Constructors
+    //------------------------------------------------------------------------------------------------------------------
     public Dictionary(String filepath, Language language) {
         this.filepath = filepath;
         this.language = language;
@@ -33,9 +33,10 @@ public class Dictionary implements Iterable<Pair<double[], double[]>> {
         this.initText();
         this.initWords();
         this.shuffleWords();
-        this.initPairs();
-        this.shufflePairs();
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
 
     // Initialization
     //------------------------------------------------------------------------------------------------------------------
@@ -48,28 +49,51 @@ public class Dictionary implements Iterable<Pair<double[], double[]>> {
     }
 
     private void shuffleWords() {
-        Collections.shuffle(words, new Random(7));
-    }
-
-    private void initPairs() {
-        pairs = Word.getPairs(words);
-    }
-
-    private void shufflePairs() {
-        Collections.shuffle(pairs, new Random(13));
+        Collections.shuffle(words, new Random(SHUFFLE_SEED));
     }
     //------------------------------------------------------------------------------------------------------------------
+
+
+
+    // Getters
+    //------------------------------------------------------------------------------------------------------------------
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public String getText() {
+        return text;
+    }
 
     public List<Word> getWords() {
         return words;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    public List<Pair<double[], double[]>> getPairs() {
-        return pairs;
+
+
+    // Others
+    //------------------------------------------------------------------------------------------------------------------
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dictionary)) return false;
+        Dictionary that = (Dictionary) o;
+        return Objects.equals(filepath, that.filepath) && language == that.language && Objects.equals(text, that.text);
     }
 
     @Override
-    public Iterator<Pair<double[], double[]>> iterator() {
-        return pairs.iterator();
+    public int hashCode() {
+        return Objects.hash(filepath, language, text);
     }
+
+    @Override
+    protected Dictionary clone() {
+        return new Dictionary(filepath, language);
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }

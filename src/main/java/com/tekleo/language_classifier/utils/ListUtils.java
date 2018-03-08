@@ -27,7 +27,7 @@ public class ListUtils {
         return list;
     }
 
-    public static <E> Pair<ArrayList<E>, ArrayList<E>> split(List<E> list, double ratio) {
+    public static <E> Pair<List<E>, List<E>> split(List<E> list, double ratio) {
         int index = (int) (list.size() * ratio);
         ArrayList<E> slice1 = toArrayList(list.subList(0, index));
         ArrayList<E> slice2 = toArrayList(list.subList(index, list.size()));
