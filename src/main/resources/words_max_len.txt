@@ -1,0 +1,6 @@
+czech - 36
+english - 24
+german - 42
+russian - 26
+turkish - 30
+ukrainian - 34

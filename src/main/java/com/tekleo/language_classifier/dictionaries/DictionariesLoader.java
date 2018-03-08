@@ -22,7 +22,8 @@ public class DictionariesLoader {
             "English.dic",
             "German.dic",
             "Russian.dic",
-            "Turkish.dic"
+            "Turkish.dic",
+            "Ukrainian.dic"
     };
 
     /**
@@ -34,6 +35,7 @@ public class DictionariesLoader {
             Language.GERMAN,
             Language.RUSSIAN,
             Language.TURKISH,
+            Language.UKRAINIAN
     };
 
     /**
