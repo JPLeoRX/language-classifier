@@ -165,6 +165,13 @@ public class Word implements Serializable, Cloneable {
     public static List<Word> getWords(String text, String delim, Language language) {
         return getWords(StringUtils.split(text, delim), language);
     }
+
+    public static List<Pair<double[], double[]>> getPairs(List<Word> words) {
+        List<Pair<double[], double[]>> pairs = new ArrayList<>(words.size());
+        for (Word word : words)
+            pairs.add(word.getPair());
+        return pairs;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
