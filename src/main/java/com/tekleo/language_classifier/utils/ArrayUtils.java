@@ -16,6 +16,20 @@ public class ArrayUtils {
         return toDoublesArray(fromOne(i));
     }
 
+    public static int[] toIntArray(double[] doublesArray) {
+        int[] intArray = new int[doublesArray.length];
+        for (int index = 0; index < doublesArray.length; index++)
+            intArray[index] = (int) Math.round(doublesArray[index]);
+        return intArray;
+    }
+
+    public static char[] toCharArray(int[] intArray) {
+        char[] charArray = new char[intArray.length];
+        for (int index = 0; index < intArray.length; index++)
+            charArray[index] = Character.toString((char) intArray[index]).toCharArray()[0];
+        return charArray;
+    }
+
     public static boolean contains(int[] a, int i) {
         for (int x : a)
             if (x == i)
