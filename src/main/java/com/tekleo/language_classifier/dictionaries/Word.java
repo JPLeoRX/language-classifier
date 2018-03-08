@@ -18,7 +18,7 @@ import java.util.Objects;
  * @since 06.03.2018 23:50
  */
 public class Word implements Serializable, Cloneable {
-    private static final int MAX_SIZE = 150;
+    private static final int MAX_SIZE = 50;
 
     // Inputs
     private String word;                            // Original word
