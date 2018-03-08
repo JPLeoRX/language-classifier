@@ -64,6 +64,10 @@ public class Dictionary implements Iterable<Pair<double[], double[]>> {
         return words;
     }
 
+    public List<Pair<double[], double[]>> getPairs() {
+        return pairs;
+    }
+
     @Override
     public Iterator<Pair<double[], double[]>> iterator() {
         return pairs.iterator();

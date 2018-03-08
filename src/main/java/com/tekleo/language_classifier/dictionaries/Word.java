@@ -104,9 +104,7 @@ public class Word implements Serializable, Cloneable {
         if (nnOutput == null || nnOutput.length != 1)
             throw new IllegalArgumentException("Illegal nnOutput value! nnOutput=" + nnOutput);
 
-        pair = new Pair<>();
-        pair.setKey(nnInput);
-        pair.setValue(nnOutput);
+        pair = new Pair<>(nnInput, nnOutput);
     }
     //------------------------------------------------------------------------------------------------------------------
 
