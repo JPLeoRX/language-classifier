@@ -1,11 +1,14 @@
 package com.tekleo.language_classifier.dictionaries;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public enum Language {
-    ENGLISH(1), GERMAN(2);
+    CZECH(1), ENGLISH(2), GERMAN(3), RUSSIAN(4), TURKISH(5);
 
     private int value;
 
-    private Language(int value) {
+    Language(int value) {
         this.value = value;
     }
 
@@ -13,7 +16,10 @@ public enum Language {
         return value;
     }
 
-    public static int[] getAllPossibleValues() {
-        return new int[]{ENGLISH.value, GERMAN.value};
+    public static List<Integer> getAllPossibleValues() {
+        List<Integer> values = new LinkedList<>();
+        for (Language language : values())
+            values.add(language.getValue());
+        return values;
     }
 }
