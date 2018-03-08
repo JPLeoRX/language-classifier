@@ -5,7 +5,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 
 public class FileUtils {
-    public static String getFileWithUtil(String fileName) {
+    public static String getFileAsString(String fileName) {
         String result = "";
 
         ClassLoader classLoader = FileUtils.class.getClassLoader();
