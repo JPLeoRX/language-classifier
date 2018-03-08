@@ -25,6 +25,11 @@ public class WordsDataSetBuilder {
         return this;
     }
 
+    public WordsDataSetBuilder setDictionaries(List<Dictionary> dictionaries) {
+        this.dictionaries = dictionaries;
+        return this;
+    }
+
     public WordsDataSetBuilder addDictionary(Dictionary dictionary) {
         dictionaries.add(dictionary);
         return this;
