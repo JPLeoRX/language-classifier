@@ -16,7 +16,7 @@ public class ExampleCreateNetwork {
         // Create data set builder
         WordsDataSetBuilder builder = new WordsDataSetBuilder();
         builder = builder.setRatio(0.75);
-        builder = builder.setBatchSize(100);
+        builder = builder.setBatchSize(1);
         builder = builder.setDictionaries(dictionaries);
 
         // Create data set
