@@ -19,11 +19,11 @@ public class DictionariesLoader {
      */
     private static final String[] FILES = new String[]{
             "Czech.dic",
-            "English.dic",
-            "German.dic",
-            "Russian.dic",
-            "Turkish.dic",
-            "Ukrainian.dic"
+//            "English.dic",
+//            "German.dic",
+//            "Russian.dic",
+//            "Turkish.dic",
+//            "Ukrainian.dic"
     };
 
     /**
@@ -31,11 +31,11 @@ public class DictionariesLoader {
      */
     private static final Language[] LANGUAGES = new Language[]{
             Language.CZECH,
-            Language.ENGLISH,
-            Language.GERMAN,
-            Language.RUSSIAN,
-            Language.TURKISH,
-            Language.UKRAINIAN
+//            Language.ENGLISH,
+//            Language.GERMAN,
+//            Language.RUSSIAN,
+//            Language.TURKISH,
+//            Language.UKRAINIAN
     };
 
     /**
