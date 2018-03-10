@@ -18,4 +18,40 @@ public class MapUtils {
         }
         return result;
     }
+
+    public static <K, V> Map<K, V> getFirstN(Map<K, V> map, int n) {
+        // Create new map
+        Map<K, V> first = new LinkedHashMap<>();
+
+        // Create counter
+        int count = 0;
+
+        // For each entry in the map
+        for (Map.Entry<K, V> e : map.entrySet()) {
+            // Push it to new map
+            first.put(e.getKey(), e.getValue());
+
+            // Increment counter
+            count++;
+
+            // Check if the counter hits our target
+            if (count == n)
+                break;;
+        }
+
+        // Return result
+        return first;
+    }
+
+    public static <K, V> K getFirstKey(Map<K, V> map) {
+        for (Map.Entry<K, V> e : map.entrySet())
+            return e.getKey();
+        return null;
+    }
+
+    public static <K, V> V getFirstValue(Map<K, V> map) {
+        for (Map.Entry<K, V> e : map.entrySet())
+            return e.getValue();
+        return null;
+    }
 }
