@@ -65,6 +65,13 @@ public class Word implements Serializable, Cloneable {
 
     // Static converters
     //------------------------------------------------------------------------------------------------------------------
+    public static double[] getAsDoubles(String s) {
+        String wordStretched = StringUtils.rightPad(s, MAX_SIZE);               // Word stretched to its MAX_SIZE and filled with spaces
+        int[] wordAsInt = StringUtils.toIntArray(wordStretched);                // Stretched word converted to integer array format
+        double[] nnInput = ArrayUtils.toDoublesArray(wordAsInt);                // Input for neural networks
+        return nnInput;
+    }
+
     public static Word getWord(String s, Language l) {
         return new Word(s, l);
     }
