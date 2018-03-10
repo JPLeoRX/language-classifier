@@ -1,6 +1,7 @@
 package com.tekleo.language_classifier.neural_network;
 
 import com.tekleo.language_classifier.dictionaries.LanguageEvaluator;
+import com.tekleo.language_classifier.dictionaries.Word;
 import com.tekleo.language_classifier.dictionaries.WordEvaluator;
 import com.tekleo.language_classifier.utils.NDArrayUtils;
 import org.deeplearning4j.datasets.iterator.DoublesDataSetIterator;
@@ -17,6 +18,7 @@ import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
+import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 public class WordsNeuralNetwork {
@@ -136,5 +138,11 @@ public class WordsNeuralNetwork {
 
         // Print total evaluation
         System.out.println(evaluation.stats());
+    }
+
+    public LanguageEvaluator compute(String word) {
+        INDArray networkInput = Nd4j.create(Word.getAsDoubles(word));
+        INDArray networkOutput = network.output(networkInput);
+        return new LanguageEvaluator(NDArrayUtils.rowToArray(networkOutput));
     }
 }
