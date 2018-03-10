@@ -31,6 +31,14 @@ public class LanguageEvaluator {
         return probabilities;
     }
 
+    public Map<Language, Double> getBest3() {
+        return MapUtils.getFirstN(probabilities, 3);
+    }
+
+    public Language getBest() {
+        return MapUtils.getFirstKey(probabilities);
+    }
+
     private void init() {
         // For each existing language
         for (Language language : Language.values())
