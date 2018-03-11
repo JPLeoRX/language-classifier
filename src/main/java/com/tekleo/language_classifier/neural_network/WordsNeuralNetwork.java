@@ -1,5 +1,6 @@
 package com.tekleo.language_classifier.neural_network;
 
+import com.tekleo.language_classifier.ExampleCreateNetwork;
 import com.tekleo.language_classifier.dictionaries.LanguageEvaluator;
 import com.tekleo.language_classifier.dictionaries.Word;
 import com.tekleo.language_classifier.dictionaries.WordEvaluator;
@@ -9,16 +10,16 @@ import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
-import org.deeplearning4j.nn.conf.Updater;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+import org.deeplearning4j.ui.stats.StatsListener;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.learning.config.Nesterovs;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 public class WordsNeuralNetwork {
@@ -27,21 +28,10 @@ public class WordsNeuralNetwork {
     private DoublesDataSetIterator testingSet;
 
     // Settings
-    private int numberOfEpochs = 3;
+    private int numberOfEpochs = 100;
     private int inputSize = 50;
-    private int middleLayer = 45;
-    private int outputSize = 37;
-    private int networkSeed = 666;
-    private int networkIterations = 1;
-    private double networkLearningRate = 0.006;
-    private double networkMomentum = 0.9;
-    private OptimizationAlgorithm networkOptAlgo = OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT;
-    private Updater networkUpdater = Updater.NESTEROVS;
-    private WeightInit networkWeightInit = WeightInit.XAVIER;
-    private Activation inputActiv = Activation.RELU;
-    private Activation middleActiv = Activation.RELU;
-    private Activation outputActiv = Activation.SOFTMAX;
-    private LossFunctions.LossFunction outputLossFunction = LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD;
+    private int middleLayer1 = 100;
+    private int outputSize = 6;
 
     // Generated
     private MultiLayerConfiguration config;
@@ -59,31 +49,22 @@ public class WordsNeuralNetwork {
 
     private void initConfig() {
         config = new NeuralNetConfiguration.Builder()
-                .seed(networkSeed)
-                .iterations(networkIterations)
-                .learningRate(networkLearningRate)
-                //.momentum(networkMomentum)
-                .optimizationAlgo(networkOptAlgo)
-                .updater(networkUpdater)
+                .seed(666)
+                .iterations(1)
+                .learningRate(0.01)
+                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+                .weightInit(WeightInit.XAVIER)
+                .updater(new Nesterovs(0.9))
                 .list()
                 .layer(0, new DenseLayer.Builder()
                         .nIn(inputSize)
-                        .nOut(middleLayer)
-                        .activation(inputActiv)
-                        .weightInit(networkWeightInit)
+                        .nOut(middleLayer1)
+                        .activation(Activation.RELU)
                         .build())
-                .layer(1, new DenseLayer.Builder()
-                        .nIn(middleLayer)
-                        .nOut(middleLayer)
-                        .activation(middleActiv)
-                        .weightInit(networkWeightInit)
-                        .build())
-                .layer(2, new OutputLayer.Builder()
-                        .lossFunction(outputLossFunction)
-                        .nIn(middleLayer)
+                .layer(1, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+                        .nIn(middleLayer1)
                         .nOut(outputSize)
-                        .activation(outputActiv)
-                        .weightInit(networkWeightInit)
+                        .activation(Activation.SOFTMAX)
                         .build())
                 .pretrain(false)
                 .backprop(true)
@@ -98,8 +79,8 @@ public class WordsNeuralNetwork {
         // Call network's internal initialize
         network.init();
 
-        // Print score every 10 parameter updates
-        network.setListeners(new ScoreIterationListener(10));
+        // Hook it to UI listener
+        network.setListeners(new StatsListener(ExampleCreateNetwork.statsStorage));
     }
 
     private void initEvaluation() {
