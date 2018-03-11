@@ -1,5 +1,6 @@
 package com.tekleo.language_classifier.dictionaries;
 
+import com.tekleo.language_classifier.neural_network.NormalizationTool;
 import com.tekleo.language_classifier.utils.ArrayUtils;
 import com.tekleo.language_classifier.utils.StringUtils;
 import org.nd4j.linalg.primitives.Pair;
@@ -19,6 +20,8 @@ import java.util.Objects;
  */
 public class Word implements Serializable, Cloneable {
     private static final int MAX_SIZE = 50;
+    private static final double CHAR_MIN_VALUE = 32;
+    private static final double CHAR_MAX_VALUE = 8220;
 
     // Inputs
     private String word;                            // Original word
@@ -39,8 +42,9 @@ public class Word implements Serializable, Cloneable {
         int[] wordAsInt = StringUtils.toIntArray(wordStretched);                // Stretched word converted to integer array format
         int[] languageAsInt = language.getAsVector();                           // Language converted to integer array format
         double[] nnInput = ArrayUtils.toDoublesArray(wordAsInt);                // Input for neural networks
+        double[] nnInputNormalized = new NormalizationTool(CHAR_MIN_VALUE, CHAR_MAX_VALUE, 0, 1).normalize(nnInput);
         double[] nnOutput = ArrayUtils.toDoublesArray(languageAsInt);           // Output for neural networks
-        pair = new Pair<>(nnInput, nnOutput);                                   // Pair of double arrays prepared for machine learning
+        pair = new Pair<>(nnInputNormalized, nnOutput);                         // Pair of double arrays prepared for machine learning
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -59,6 +63,14 @@ public class Word implements Serializable, Cloneable {
     public Pair<double[], double[]> getPair() {
         return pair;
     }
+
+    public double getMinChar() {
+        return ArrayUtils.min(pair.getKey());
+    }
+
+    public double getMaxChar() {
+        return ArrayUtils.max(pair.getKey());
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -69,7 +81,8 @@ public class Word implements Serializable, Cloneable {
         String wordStretched = StringUtils.rightPad(s, MAX_SIZE);               // Word stretched to its MAX_SIZE and filled with spaces
         int[] wordAsInt = StringUtils.toIntArray(wordStretched);                // Stretched word converted to integer array format
         double[] nnInput = ArrayUtils.toDoublesArray(wordAsInt);                // Input for neural networks
-        return nnInput;
+        double[] nnInputNormalized = new NormalizationTool(CHAR_MIN_VALUE, CHAR_MAX_VALUE, 0, 1).normalize(nnInput);
+        return nnInputNormalized;
     }
 
     public static Word getWord(String s, Language l) {
