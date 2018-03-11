@@ -1,5 +1,6 @@
 package com.tekleo.language_classifier.dictionaries;
 
+import com.tekleo.language_classifier.utils.ArrayUtils;
 import com.tekleo.language_classifier.utils.FileUtils;
 
 import java.io.Serializable;
@@ -48,8 +49,24 @@ public class Dictionary implements Serializable, Cloneable {
         return language;
     }
 
-    public List<Word> getWords() {
+     public List<Word> getWords() {
         return words;
+    }
+
+    public double getMinCharValue() {
+        ArrayList<Double> mins = new ArrayList<>();
+        for (Word word : words)
+            mins.add(word.getMinChar());
+        double[] minsArray = ArrayUtils.toDoublesArray(mins);
+        return ArrayUtils.min(minsArray);
+    }
+
+    public double getMaxCharValue() {
+        ArrayList<Double> maxs = new ArrayList<>();
+        for (Word word : words)
+            maxs.add(word.getMaxChar());
+        double[] maxsArray = ArrayUtils.toDoublesArray(maxs);
+        return ArrayUtils.max(maxsArray);
     }
     //------------------------------------------------------------------------------------------------------------------
 
