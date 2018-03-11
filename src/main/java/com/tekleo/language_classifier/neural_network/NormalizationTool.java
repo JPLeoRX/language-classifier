@@ -21,4 +21,15 @@ public class NormalizationTool {
             normalizedArray[index] = this.normalize(array[index]);
         return normalizedArray;
     }
+
+    public double denormalize(double norm) {
+        return (norm - normalizedLow) / (normalizedHigh - normalizedLow) * (actualHigh - actualLow) + actualLow;
+    }
+
+    public double[] denormalize(double[] normalizedArray) {
+        double[] denormalizedArray = new double[normalizedArray.length];
+        for (int index = 0; index < normalizedArray.length; index++)
+            denormalizedArray[index] = this.denormalize(normalizedArray[index]);
+        return denormalizedArray;
+    }
 }

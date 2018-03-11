@@ -1,5 +1,6 @@
 package com.tekleo.language_classifier.dictionaries;
 
+import com.tekleo.language_classifier.neural_network.NormalizationTool;
 import com.tekleo.language_classifier.utils.ArrayUtils;
 
 import java.util.LinkedList;
@@ -32,8 +33,11 @@ public class WordEvaluator {
     }
 
     private void init() {
+        // Denormalize
+        double[] denormalized = new NormalizationTool(32, 8220, 0, 1).denormalize(neuralNetworkInput);
+
         // Convert to int array
-        int[] intArray = ArrayUtils.toIntArray(neuralNetworkInput);
+        int[] intArray = ArrayUtils.toIntArray(denormalized);
 
         // Convert to char
         char[] charArray = ArrayUtils.toCharArray(intArray);
