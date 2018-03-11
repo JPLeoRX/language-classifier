@@ -8,6 +8,7 @@ import com.tekleo.language_classifier.neural_network.WordsNeuralNetwork;
 import org.deeplearning4j.api.storage.StatsStorage;
 import org.deeplearning4j.ui.api.UIServer;
 import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
+import org.nd4j.jita.conf.CudaEnvironment;
 
 import java.util.List;
 
@@ -35,6 +36,16 @@ public class ExampleCreateNetwork {
      * If trained for 30 epochs there will be 300 iteration
      */
     public static void main(String[] args) {
+        CudaEnvironment.getInstance().getConfiguration()
+                .setMaximumGridSize(512)
+                .setMaximumBlockSize(512);
+
+        CudaEnvironment.getInstance().getConfiguration()
+                .setMaximumDeviceCacheableLength(1024 * 1024 * 1024L)
+                .setMaximumDeviceCache(3L * 1024 * 1024 * 1024L)
+                .setMaximumHostCacheableLength(1024 * 1024 * 1024L)
+                .setMaximumHostCache(3L * 1024 * 1024 * 1024L);
+
         initUI();
 
         // Load all dictionaries
@@ -51,7 +62,7 @@ public class ExampleCreateNetwork {
 
         // Create neural network
         WordsNeuralNetwork network = new WordsNeuralNetwork(dataSet.getIteratorTraining(), dataSet.getIteratorTesting());
-        network.train();
+        network.runEarlyStopTraining();
         network.test();
     }
 }
