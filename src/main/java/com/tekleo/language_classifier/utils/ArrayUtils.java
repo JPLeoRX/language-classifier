@@ -1,5 +1,7 @@
 package com.tekleo.language_classifier.utils;
 
+import java.util.ArrayList;
+
 public class ArrayUtils {
     public static int[] fromOne(int i) {
         return new int[]{i};
@@ -9,6 +11,13 @@ public class ArrayUtils {
         double[] doublesArray = new double[intArray.length];
         for (int index = 0; index < intArray.length; index++)
             doublesArray[index] = (double) intArray[index];
+        return doublesArray;
+    }
+
+    public static double[] toDoublesArray(ArrayList<Double> list) {
+        double[] doublesArray = new double[list.size()];
+        for (int index = 0; index < list.size(); index++)
+            doublesArray[index] = list.get(index);
         return doublesArray;
     }
 
@@ -35,5 +44,21 @@ public class ArrayUtils {
             if (x == i)
                 return true;
         return false;
+    }
+
+    public static double min(double[] a) {
+        double m = Double.MAX_VALUE;
+        for (double x : a)
+            if (x < m)
+                m = x;
+        return m;
+    }
+
+    public static double max(double[] a) {
+        double m = Double.MIN_VALUE;
+        for (double x : a)
+            if (x > m)
+                m = x;
+        return m;
     }
 }
