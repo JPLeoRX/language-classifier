@@ -24,9 +24,6 @@
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 
-        <!-- Change the nd4j.backend property to nd4j-cuda-7.5-platform or nd4j-cuda-8.0-platform to use CUDA GPUs -->
-        <nd4j.backend>nd4j-native-platform</nd4j.backend>
-        <!--<nd4j.backend>nd4j-cuda-8.0-platform</nd4j.backend>-->
         <nd4j.version>0.9.1</nd4j.version>
         <dl4j.version>0.9.1</dl4j.version>
     </properties>
@@ -51,7 +48,7 @@
         <!-- ND4J backend. Is needed in every DL4J project. Normally define artifactId as either "nd4j-native-platform" or "nd4j-cuda-7.5-platform" -->
         <dependency>
             <groupId>org.nd4j</groupId>
-            <artifactId>${nd4j.backend}</artifactId>
+            <artifactId>nd4j-cuda-8.0-platform</artifactId>
             <version>${nd4j.version}</version>
         </dependency>
 
@@ -59,6 +56,20 @@
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
+        <!-- Cuda DL4J functionality -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-cuda-8.0</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
+        <!-- DL4J UI -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-ui_2.10</artifactId>
             <version>${dl4j.version}</version>
         </dependency>
     </dependencies>
