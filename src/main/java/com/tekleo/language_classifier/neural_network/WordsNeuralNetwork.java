@@ -37,13 +37,14 @@ public class WordsNeuralNetwork {
     private DoublesDataSetIterator testingSet;
 
     // Settings
-    private int numberOfEpochs = 10;
+    private int numberOfEpochs = 40;
     private int inputSize = 50;
     private int middleLayer1 = 100;
     private int middleLayer2 = 200;
-    private int middleLayer3 = 400;
-    private int middleLayer4 = 500;
-    private int middleLayer5 = 600;
+    private int middleLayer3 = 300;
+    private int middleLayer4 = 400;
+    private int middleLayer5 = 500;
+    private int middleLayer6 = 600;
     private int outputSize = 6;
 
     // Generated
@@ -72,31 +73,36 @@ public class WordsNeuralNetwork {
                 .layer(0, new DenseLayer.Builder()
                         .nIn(inputSize)
                         .nOut(middleLayer1)
-                        .activation(Activation.RELU)
+                        .activation(Activation.TANH)
                         .build())
                 .layer(1, new DenseLayer.Builder()
                         .nIn(middleLayer1)
                         .nOut(middleLayer2)
-                        .activation(Activation.RELU)
+                        .activation(Activation.TANH)
                         .build())
                 .layer(2, new DenseLayer.Builder()
                         .nIn(middleLayer2)
                         .nOut(middleLayer3)
-                        .activation(Activation.RELU)
+                        .activation(Activation.TANH)
                         .build())
                 .layer(3, new DenseLayer.Builder()
                         .nIn(middleLayer3)
                         .nOut(middleLayer4)
-                        .activation(Activation.RELU)
+                        .activation(Activation.TANH)
                         .build())
                 .layer(4, new DenseLayer.Builder()
                         .nIn(middleLayer4)
                         .nOut(middleLayer5)
-                        .activation(Activation.RELU)
+                        .activation(Activation.TANH)
                         .build())
-                .layer(5, new OutputLayer.Builder()
-                        .lossFunction(LossFunctions.LossFunction.MCXENT)
+                .layer(5, new DenseLayer.Builder()
                         .nIn(middleLayer5)
+                        .nOut(middleLayer6)
+                        .activation(Activation.TANH)
+                        .build())
+                .layer(6, new OutputLayer.Builder()
+                        .lossFunction(LossFunctions.LossFunction.MCXENT)
+                        .nIn(middleLayer6)
                         .nOut(outputSize)
                         .activation(Activation.SOFTMAX)
                         .build())
@@ -137,7 +143,7 @@ public class WordsNeuralNetwork {
     public void runEarlyStopTraining() {
         EarlyStoppingConfiguration<MultiLayerNetwork> esConf = new EarlyStoppingConfiguration.Builder<MultiLayerNetwork>()
                 .epochTerminationConditions(new MaxEpochsTerminationCondition(numberOfEpochs))
-                .iterationTerminationConditions(new MaxTimeIterationTerminationCondition(30, TimeUnit.MINUTES))
+                .iterationTerminationConditions(new MaxTimeIterationTerminationCondition(1, TimeUnit.HOURS))
                 .scoreCalculator(new DataSetLossCalculator(testingSet, true))
                 .evaluateEveryNEpochs(1)
                 .modelSaver(new LocalFileModelSaver("D:\\Dropbox\\TekLeo\\Language Classifier\\networks"))
